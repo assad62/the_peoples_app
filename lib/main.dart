@@ -1,29 +1,17 @@
 import 'package:flutter/material.dart';
-import 'common/navigation_service.dart';
+import 'app/app.dart';
 import 'locator.dart';
-import 'ui/router.dart';
-import 'ui/views/home_view.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:flutter/foundation.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 
-void main() {
+void main() async {
+  if (defaultTargetPlatform == TargetPlatform.android) {
+    AndroidGoogleMapsFlutter.useAndroidViewSurface = true;
+  }
+  await dotenv.load(fileName: ".env");
   setupLocator();
   runApp(MyApp());
 }
 
-class MyApp extends StatelessWidget {
-  // This widget is the root of your application.
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      navigatorKey: locator<NavigationService>().navigatorKey,
-      title: 'Flutter Demo',
-      initialRoute: 'home',
-      onGenerateRoute: AppRouter.generateRoute,
-      theme: ThemeData(
-
-        primarySwatch: Colors.blue,
-      ),
-      home: HomeView(),
-    );
-  }
-}
 
